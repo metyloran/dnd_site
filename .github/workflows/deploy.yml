@@ -3,18 +3,23 @@ name: Deploy Laravel to Alwaysdata
 on:
   push:
     branches:
-      - main  # убедитесь, что ваша ветка называется main, а не master
+      - main  # или ваша рабочая ветка
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Sync files via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy files via SSH/SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ssh-dndsite.alwaysdata.net
           username: ${{ secrets.ALWAYSDATA_SSH_USER }}
           password: ${{ secrets.ALWAYSDATA_SSH_PASSWORD }}
+          server: ssh-dndsite.alwaysdata.net
           port: 22
-          protocol: sftp # ОБЯЗАТЕЛЬНО: указываем экшену использовать SFTP вместо FTP
-          server-dir: /
+          local_path: './*'        # Копируем всё содержимое локального репозитория
+          remote_path: '/'         # Загружаем напрямую в корень вашей домашней директории
+          delete_remote_files: false # Не удалять файлы, которых нет в репозитории (важно для .env и логов!)
+
