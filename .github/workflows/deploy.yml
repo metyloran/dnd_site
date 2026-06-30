@@ -9,14 +9,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Sync files via SFTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ssh-dndsite.alwaysdata.net # Используйте ваш SSH-хост
+          server: ssh-dndsite.alwaysdata.net
           username: ${{ secrets.ALWAYSDATA_SSH_USER }}
           password: ${{ secrets.ALWAYSDATA_SSH_PASSWORD }}
-          port: 22 # Обязательно для SSH/SFTP пользователя с вашего скриншота
-          server-dir: / # Запись пойдет прямо в папку /home/dndsite/
+          port: 22
+          protocol: sftp # ОБЯЗАТЕЛЬНО: указываем экшену использовать SFTP вместо FTP
+          server-dir: /
