@@ -3,7 +3,7 @@ name: Deploy Laravel to Alwaysdata
 on:
   push:
     branches:
-      - main  # или ваша рабочая ветка
+      - main  # Ваша рабочая ветка
 
 jobs:
   deploy:
@@ -19,7 +19,6 @@ jobs:
           password: ${{ secrets.ALWAYSDATA_SSH_PASSWORD }}
           server: ssh-dndsite.alwaysdata.net
           port: 22
-          local_path: './*'        # Копируем всё содержимое локального репозитория
-          remote_path: '/'         # Загружаем напрямую в корень вашей домашней директории
-          delete_remote_files: false # Не удалять файлы, которых нет в репозитории (важно для .env и логов!)
-
+          local_path: './*'        # Копируем всё из репозитория GitHub
+          remote_path: 'www/'      # ЗАМЕНИТЕ НА ВАШУ ПАПКУ (например, www/ или www/dndsite/)
+          delete_remote_files: false 
