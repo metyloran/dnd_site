@@ -1,9 +1,9 @@
-name: Deploy to Alwaysdata
+name: Deploy Laravel to Alwaysdata
 
 on:
   push:
     branches:
-      - main  
+      - main  # убедитесь, что ваша ветка называется main, а не master
 
 jobs:
   deploy:
@@ -12,10 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Sync files to Alwaysdata
+      - name: Sync files via SFTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ssh-dndsite.alwaysdata.net # ЗАМЕНИТЕ НА ВАШ ХОСТ (из шага 1)
+          server: ssh-dndsite.alwaysdata.net # Используйте ваш SSH-хост
           username: ${{ secrets.ALWAYSDATA_SSH_USER }}
           password: ${{ secrets.ALWAYSDATA_SSH_PASSWORD }}
-          server-dir: www/dnd_site/ # ПУТЬ К ПАПКЕ САЙТА НА ХОСТИНГЕ
+          port: 22 # Обязательно для SSH/SFTP пользователя с вашего скриншота
+          server-dir: / # Запись пойдет прямо в папку /home/dndsite/
