@@ -1,0 +1,21 @@
+name: Deploy to Alwaysdata
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync files to Alwaysdata
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ssh-dndsite.alwaysdata.net # ЗАМЕНИТЕ НА ВАШ ХОСТ (из шага 1)
+          username: ${{ secrets.ALWAYSDATA_SSH_USER }}
+          password: ${{ secrets.ALWAYSDATA_SSH_PASSWORD }}
+          server-dir: www/dnd_site/ # ПУТЬ К ПАПКЕ САЙТА НА ХОСТИНГЕ
